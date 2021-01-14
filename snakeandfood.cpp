@@ -120,8 +120,10 @@ void Snake::changeDirection()
 }
 void Snake::triggered(const int x, const int y)
 {
-	if (p->map->data[x][y] == element::snakebody || p->map->data[x][y] == element::wall)
-		p->gameState = 3; // dead
+	if (p->map->data[x][y] == element::wall)
+	{
+		start_pause(p->gameState = 3); // dead
+	}
 	else if (p->map->data[x][y] == element::food)
 	{
 		emit eat(x, y);
@@ -129,10 +131,13 @@ void Snake::triggered(const int x, const int y)
 		emit updateScore(this, score);
 		grow(x, y);
 	}
-	else if (p->map->data[x][y] == element::blank)
+	else
 	{
-		grow(x, y);
 		cut();
+		if (p->map->data[x][y] == element::snakebody)
+			start_pause(p->gameState = 3); // dead
+		else
+			grow(x, y);
 	}
 }
 void Snake::grow(const int x, const int y)
