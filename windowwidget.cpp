@@ -29,15 +29,8 @@ WindowWidget::~WindowWidget()
 void WindowWidget::paintMap()
 {
 	QPainter painter(this);
-	painter.setPen(QPen(QColor(100, 100, 100), 0.5)); // the number stands for line width
 	double&& drawWidth = (double)windowWidth / p->map->width;
 	double&& drawHeight = (double)windowHeight / p->map->height;
-	// paint the borders of the blocks
-	for (int i = 1; i < p->map->height; ++i)
-		painter.drawLine(0, i * drawHeight, 900, i * drawHeight);
-	for (int i = 1; i < p->map->width; ++i)
-		painter.drawLine(i * drawWidth, 0, i * drawWidth, 600);
-	// paint the blocks of the map
 	for (int i = 0; i < p->map->width; ++i)
 		for (int j = 0; j < p->map->height; ++j)
 		{
@@ -45,20 +38,27 @@ void WindowWidget::paintMap()
 			switch (p->map->data[i][j])
 			{
 			case element::blank:
+				painter.setPen(QPen(Qt::black, 0.2));
+				painter.setBrush(Qt::NoBrush);
+				painter.drawRect(drawArea);
 				break;
 			case element::wall:
+				painter.setPen(QPen(Qt::black, 0.2));
 				painter.setBrush(QBrush(QColor(160, 160, 160)));
 				painter.drawRect(drawArea);
 				break;
 			case element::snakehead:
+				painter.setPen(QPen(Qt::black, 0.2));
 				painter.setBrush(QBrush(Qt::red));
 				painter.drawRect(drawArea);
 				break;
 			case element::snakebody:
+				painter.setPen(QPen(Qt::black, 0.2));
 				painter.setBrush(QBrush(QColor(255, 255, 50)));
 				painter.drawRect(drawArea);
 				break;
 			case element::food:
+				painter.setPen(QPen(Qt::black, 0.2));
 				painter.setBrush(QBrush(QColor(0, 230, 255)));
 				painter.drawEllipse(drawArea);
 				break;
